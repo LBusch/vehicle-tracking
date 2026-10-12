@@ -14,7 +14,7 @@ A yolo26s model is trained on the UA-DETRAC [^3] dataset to provide vehicle dete
 
 ## Example Video
 
-https://github.com/user-attachments/assets/80b7d4ac-cc5b-46f0-89e3-d6556e3d79dd
+https://github.com/user-attachments/assets/84b3833e-ac52-4b9f-a860-53e29a09eef2
 
 ### References
 
