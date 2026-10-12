@@ -1,2 +1,4 @@
-# vehicle-tracking
-Vehicle tracking by detection using YOLO and SORT
+## Vehicle Tracking by Detection
+In this project vehicle tracking by detection is implemented using YOLO and SORT. For this the SORT (Simple Online and Realtime Tracking) algorithm is implemented in Python. SORT predicts the movement of tracked objects over a sequence of images with a Kalman Filter. Detections from an object detection model are used to correct these predictions. The detections are matched to tracked objects based on IoU (Intersection over Union) using the Hungarian Algorithm. 
+
+A yolo26s model is trained on the UA-DETRAC dataset to provide vehicle detections. the YOLO (You Only Look Once) family of models are real-time capable object detection models. They are single stage detectors, meaning they predict the bounding boxes and classes of objects in a single pass of the network. The UA-DETRAC dataset is a large dataset for vehicle detection, it consists of 100 challenging video sequences of real-world traffic scenes with over 140,000 image frames.
