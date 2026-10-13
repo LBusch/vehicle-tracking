@@ -3,10 +3,10 @@ import os
 from ultralytics import YOLO
 from sort import Sort
 
-img_sequence_dir = "data/DETRAC-Images/MVI_40981" # 40981
-video_name = "MVI_40981.mp4"
-trained_model_path = "runs/detect/yolo26s_15epochs/weights/best.pt"
-use_tracker = True  # Set to True to enable tracking, False for detection only
+IMG_SEQUENCE_DIR = "data/DETRAC-Images/MVI_40981" # 40981
+VIDEO_NAME = "MVI_40981.mp4"
+TRAINED_MODEL_PATH = "yolo26s/weights/best.pt"
+USE_TRACKER = True  # Set to True to enable tracking, False for detection only
 
 
 def draw_tracked_bboxes(frame, tracked_boxes):
@@ -23,20 +23,20 @@ def draw_detections(frame, detections):
         cv2.rectangle(frame, (x1, y1), (x2, y2), color=(255, 0, 0), thickness=2)
 
 
-model = YOLO(trained_model_path)
+model = YOLO(TRAINED_MODEL_PATH)
 tracker = Sort(max_age=1, min_hits=3, iou_threshold=0.3)
-images = sorted([img for img in os.listdir(img_sequence_dir) if img.endswith('.jpg')])
-frame = cv2.imread(os.path.join(img_sequence_dir, images[0]))
+images = sorted([img for img in os.listdir(IMG_SEQUENCE_DIR) if img.endswith('.jpg')])
+frame = cv2.imread(os.path.join(IMG_SEQUENCE_DIR, images[0]))
 height, width, _ = frame.shape
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-video_writer = cv2.VideoWriter(video_name, fourcc, 30.0, (width, height))
+video_writer = cv2.VideoWriter(VIDEO_NAME, fourcc, 30.0, (width, height))
 
 for img_name in images:
-    img_path = os.path.join(img_sequence_dir, img_name)
+    img_path = os.path.join(IMG_SEQUENCE_DIR, img_name)
     frame = cv2.imread(img_path)
     results = model(frame, verbose=False)
 
-    if use_tracker:
+    if USE_TRACKER:
         # Use SORT for tracking
         detections = results[0].boxes.xyxy.cpu().numpy().astype(float)
         tracked_boxes = tracker.update(detections)
@@ -45,7 +45,6 @@ for img_name in images:
         detections = results[0].boxes.xyxy.cpu().numpy().astype(float)
         draw_detections(frame, detections)
     
-    draw_tracked_bboxes(frame, tracked_boxes)
     video_writer.write(frame)
     cv2.imshow('Frame', frame)
 
